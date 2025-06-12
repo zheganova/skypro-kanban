@@ -319,6 +319,16 @@ body {
   color: #565eef;
 }
 
+.pop-user-overlay {
+  position: fixed; /* Фиксируем его относительно окна просмотра */
+  top: 0;
+  left: 0;
+  width: 100%; /* Растягиваем на всю ширину */
+  height: 100%; /* Растягиваем на всю высоту */
+  background-color: rgba(0, 0, 0, 0);
+  z-index: 99; /* Убедимся, что он находится поверх других элементов */
+}
+
 .pop-new-card {
   display: none;
   width: 100%;
@@ -773,7 +783,6 @@ body {
   flex-wrap: nowrap;
   align-items: center;
   justify-content: space-between;
-  position: relative;
   top: 0;
   left: 0;
   padding: 0 10px;
@@ -787,6 +796,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 .header__btn-main-new {
   width: 178px;
@@ -826,10 +836,10 @@ body {
   padding: 0;
 }
 .header__pop-user-set {
-  display: none;
+  display: block;
   position: absolute;
   top: 61px;
-  right: 0;
+  right: 176px;
   width: 213px;
   height: 205px;
   border-radius: 10px;

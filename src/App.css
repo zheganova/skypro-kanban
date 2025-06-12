@@ -1,7 +1,5 @@
 #root {
-  max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
 }
 
@@ -91,7 +89,7 @@ body {
   width: 100vw;
   min-height: 100vh;
   overflow: hidden;
-  background-color: #f1f1f1;
+  background-color: #eaeef6;
 }
 
 .container {
@@ -319,6 +317,16 @@ body {
 }
 .pop-user-set button a {
   color: #565eef;
+}
+
+.pop-user-overlay {
+  position: fixed; /* Фиксируем его относительно окна просмотра */
+  top: 0;
+  left: 0;
+  width: 100%; /* Растягиваем на всю ширину */
+  height: 100%; /* Растягиваем на всю высоту */
+  background-color: rgba(0, 0, 0, 0);
+  z-index: 99; /* Убедимся, что он находится поверх других элементов */
 }
 
 .pop-new-card {
@@ -775,7 +783,6 @@ body {
   flex-wrap: nowrap;
   align-items: center;
   justify-content: space-between;
-  position: relative;
   top: 0;
   left: 0;
   padding: 0 10px;
@@ -789,6 +796,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 .header__btn-main-new {
   width: 178px;
@@ -828,10 +836,10 @@ body {
   padding: 0;
 }
 .header__pop-user-set {
-  display: none;
+  display: block;
   position: absolute;
   top: 61px;
-  right: 0;
+  right: 176px;
   width: 213px;
   height: 205px;
   border-radius: 10px;
@@ -1142,4 +1150,13 @@ body {
   .pop-exit__form-group {
     display: block;
   }
+}
+
+.loading-message {
+  display: flex;
+  justify-content: center; 
+  align-items: center;            
+  width: 100%;           
+  font-size: 24px;        
+  color: #8B8B8B;         
 }

@@ -1,15 +1,22 @@
 import { Card } from "../Card/Card";
 
-export const Column = ({ title }) => {
+export const Column = ({ title, cardList }) => {
   return (
     <div className="main__column column">
       <div className="column__title">
         <p>{title}</p>
       </div>
       <div className="cards">
-        <Card theme="orange" title="Web Design" />
-        <Card theme="green" title="Research" />
-        <Card theme="purple" title="Copywriting" />
+        {/* Используем map для рендеринга каждой карточки из cardList */}
+        {cardList.map((card) => (
+          <Card
+            key={card.id} 
+            id={card.id}
+            topic={card.topic} 
+            title={card.title} 
+            date={card.date}   
+          />
+        ))}
       </div>
     </div>
   );

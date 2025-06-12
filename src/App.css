@@ -89,7 +89,7 @@ body {
   width: 100vw;
   min-height: 100vh;
   overflow: hidden;
-  background-color: #f1f1f1;
+  background-color: #eaeef6;
 }
 
 .container {
@@ -1150,4 +1150,13 @@ body {
   .pop-exit__form-group {
     display: block;
   }
+}
+
+.loading-message {
+  display: flex;
+  justify-content: center; 
+  align-items: center;            
+  width: 100%;           
+  font-size: 24px;        
+  color: #8B8B8B;         
 }

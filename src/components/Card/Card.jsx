@@ -1,10 +1,25 @@
-export const Card = ({ theme, title }) => {
+export const Card = ({ id, topic, title, date }) => {
+  let themeClass = "";
+  switch (
+    topic // Используем topic для определения цвета
+  ) {
+    case "Web Design":
+      themeClass = "orange";
+      break;
+    case "Research":
+      themeClass = "green";
+      break;
+    case "Copywriting":
+      themeClass = "purple";
+      break;
+  }
+
   return (
     <div className="cards__item">
-      <div className="cards__card card">
+      <div className="cards__card card" id={`card-${id}`}>
         <div className="card__group">
-          <div className={`card__theme _${theme}`}>
-            <p className={`_${theme}`}>{title}</p>
+          <div className={`card__theme _${themeClass}`}>
+            <p className={`_${themeClass}`}>{topic}</p>
           </div>
           <a href="#popBrowse" target="_self">
             <div className="card__btn">
@@ -16,7 +31,7 @@ export const Card = ({ theme, title }) => {
         </div>
         <div className="card__content">
           <a href="" target="_blank">
-            <h3 className="card__title">Название задачи</h3>
+            <h3 className="card__title">{title}</h3>
           </a>
           <div className="card__date">
             <svg
@@ -47,7 +62,7 @@ export const Card = ({ theme, title }) => {
                 </clipPath>
               </defs>
             </svg>
-            <p>30.10.23</p>
+            <p>{date}</p>
           </div>
         </div>
       </div>

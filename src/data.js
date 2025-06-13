@@ -39,7 +39,7 @@ export const cardList = [
     topic: "Copywriting",
     title: "Создать тексты для баннеров",
     date: "05.11.23",
-    status: "В РАБОТЕ",
+    status: "БЕЗ СТАТУСА",
   },
   {
     id: 7,
@@ -47,5 +47,19 @@ export const cardList = [
     title: "Дизайн главной страницы",
     date: "20.10.23",
     status: "БЕЗ СТАТУСА",
+  },
+  {
+    id: 8,
+    topic: "Copywriting",
+    title: "Написать статью о Vue",
+    date: "04.12.23",
+    status: "ТЕСТИРОВАНИЕ", // Соответствует третьей колонке
+  },
+  {
+    id: 8,
+    topic: "Research",
+    title: "Изучить компоненты",
+    date: "17.02.23",
+    status: "В РАБОТЕ", // Соответствует третьей колонке
   },
 ];

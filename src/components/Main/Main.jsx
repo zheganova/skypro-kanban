@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Column } from "../Column/Column";
 import { cardList } from "../../data";
+import { MainStyle, MainBlock, MainContent } from "../Main/Main.styled";
 
 export const Main = () => {
   const columnTitles = [
@@ -21,15 +22,15 @@ export const Main = () => {
   }, []); // Пустой массив зависимостей означает, что эффект запустится один раз при монтировании
 
   return (
-    <main className="main">
+    <MainStyle>
       <div className="container">
-        <div className="main__block">
+        <MainBlock>
           {isLoading ? (
             <div className="loading-message">
               <p>Данные загружаются...</p>
             </div>
           ) : (
-            <div className="main__content">
+            <MainContent>
               {/* Используем .map() для рендеринга каждой колонки */}
               {columnTitles.map((title) => (
                 <Column
@@ -39,10 +40,10 @@ export const Main = () => {
                   cardList={cardList.filter((card) => card.status === title)}
                 />
               ))}
-            </div>
+            </MainContent>
           )}
-        </div>
+        </MainBlock>
       </div>
-    </main>
+    </MainStyle>
   );
 };

@@ -1,23 +1,24 @@
 import { Card } from "../Card/Card";
+import { MainColumn, ColumnTitle, Cards } from "../Column/Column.styled";
 
 export const Column = ({ title, cardList }) => {
   return (
-    <div className="main__column column">
-      <div className="column__title">
+    <MainColumn>
+      <ColumnTitle>
         <p>{title}</p>
-      </div>
-      <div className="cards">
+      </ColumnTitle>
+      <Cards>
         {/* Используем map для рендеринга каждой карточки из cardList */}
         {cardList.map((card) => (
           <Card
-            key={card.id} 
+            key={card.id}
             id={card.id}
-            topic={card.topic} 
-            title={card.title} 
-            date={card.date}   
+            topic={card.topic}
+            title={card.title}
+            date={card.date}
           />
         ))}
-      </div>
-    </div>
+      </Cards>
+    </MainColumn>
   );
 };

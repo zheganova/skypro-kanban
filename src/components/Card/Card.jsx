@@ -1,3 +1,14 @@
+import {
+  CardsItem,
+  CardsCard,
+  CardGroup,
+  CardTheme,
+  CardBtn,
+  CardContent,
+  CardTitle,
+  CardDate,
+} from "../Card/Card.styled";
+
 export const Card = ({ id, topic, title, date }) => {
   let themeClass = "";
   switch (
@@ -15,25 +26,25 @@ export const Card = ({ id, topic, title, date }) => {
   }
 
   return (
-    <div className="cards__item">
-      <div className="cards__card card" id={`card-${id}`}>
-        <div className="card__group">
-          <div className={`card__theme _${themeClass}`}>
+    <CardsItem>
+      <CardsCard id={`card-${id}`}>
+        <CardGroup>
+          <CardTheme className={`_${themeClass}`}>
             <p className={`_${themeClass}`}>{topic}</p>
-          </div>
+          </CardTheme>
           <a href="#popBrowse" target="_self">
-            <div className="card__btn">
+            <CardBtn>
               <div></div>
               <div></div>
               <div></div>
-            </div>
+            </CardBtn>
           </a>
-        </div>
-        <div className="card__content">
+        </CardGroup>
+        <CardContent>
           <a href="" target="_blank">
-            <h3 className="card__title">{title}</h3>
+            <CardTitle>{title}</CardTitle>
           </a>
-          <div className="card__date">
+          <CardDate>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="13"
@@ -63,9 +74,9 @@ export const Card = ({ id, topic, title, date }) => {
               </defs>
             </svg>
             <p>{date}</p>
-          </div>
-        </div>
-      </div>
-    </div>
+          </CardDate>
+        </CardContent>
+      </CardsCard>
+    </CardsItem>
   );
 };

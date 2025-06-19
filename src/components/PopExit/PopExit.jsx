@@ -1,6 +1,6 @@
 import {
+  PopExitStyle,
   PopExitContainer,
-  PopExitWrapper,
   PopExitBlock,
   PopExitTitle,
   PopExitForm,

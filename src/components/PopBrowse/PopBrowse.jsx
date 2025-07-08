@@ -1,6 +1,17 @@
+import { useMemo } from "react";
 import { Calendar } from "../Calendar/Calendar";
+import { useParams } from "react-router-dom";
+import { cardList } from "../../data";
 
 export const PopBrowse = () => {
+  const { id } = useParams(); 
+
+  const task = useMemo(() => {
+    // Важно: useParams() возвращает ID как строку, а в cardList ID - числа.
+    // Поэтому нужно преобразовать id к числу с помощью Number(id) или parseInt(id).
+    return cardList.find((card) => card.id === Number(id));
+  }, [id]); // Пересчитываем только когда id из URL меняется
+
   return (
     <div className="pop-browse" id="popBrowse">
       <div className="pop-browse__container">
@@ -9,7 +20,7 @@ export const PopBrowse = () => {
             <div className="pop-browse__top-block">
               <h3 className="pop-browse__ttl">Название задачи</h3>
               <div className="categories__theme theme-top _orange _active-category">
-                <p className="_orange">Web Design</p>
+                <p className="_orange">{task.title}</p>
               </div>
             </div>
             <div className="pop-browse__status status">
@@ -56,7 +67,7 @@ export const PopBrowse = () => {
             <div className="theme-down__categories theme-down">
               <p className="categories__p subttl">Категория</p>
               <div className="categories__theme _orange _active-category">
-                <p className="_orange">Web Design</p>
+                <p className="_orange">{task.topic}</p>
               </div>
             </div>
             <div className="pop-browse__btn-browse ">

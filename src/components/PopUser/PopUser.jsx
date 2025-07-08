@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import {
   PopUserContainer,
   PopUserName,
@@ -6,7 +7,14 @@ import {
   PopUserButton,
 } from "../PopUser/PopUser.styled";
 
-export const PopUser = ({ isVisible, toggleVisibility }) => {
+export const PopUser = ({ isVisible, setIsAuth }) => {
+  const navigate = useNavigate();
+  const handleLogout = (e) => {
+    e.preventDefault();
+    setIsAuth(false);
+    navigate("/sign-in");
+  };
+
   return (
     <PopUserContainer $isVisible={isVisible} id="user-set-target">
       <PopUserName>Ivan Ivanov</PopUserName>
@@ -16,9 +24,7 @@ export const PopUser = ({ isVisible, toggleVisibility }) => {
         <input type="checkbox" className="checkbox" name="checkbox" />
       </PopUserTheme>
       <PopUserButton type="button">
-        {/* При клике на "Выйти" также закрываем PopUser, если нужно, или переходим по ссылке */}
-        {/* В данном случае, чтобы закрыть окно при клике на "Выйти", можно вызвать toggleVisibility */}
-        <a href="#popExit" onClick={toggleVisibility}>
+        <a href="#popExit" onClick={handleLogout}>
           Выйти
         </a>
       </PopUserButton>

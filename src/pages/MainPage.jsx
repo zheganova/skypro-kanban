@@ -7,14 +7,14 @@ import "../App.css";
 import { GlobalStyle } from "../components/GlobalStyles";
 import { Outlet } from "react-router-dom";
 
-export const MainPage = ({ loading }) => {
+export const MainPage = ({ loading, setIsAuth }) => {
   return (
     <div className="wrapper">
       <GlobalStyle />
       <PopExit />
       <PopNewCard />
       <PopBrowse />
-      <Header />
+      <Header setIsAuth={setIsAuth} />
       <Main loading={loading} />
       <Outlet />
     </div>

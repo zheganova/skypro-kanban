@@ -10,7 +10,7 @@ import {
   PopUserOverlay,
 } from "../Header/Header.styled";
 
-export const Header = () => {
+export const Header = ({ setIsAuth }) => {
   // Создаем состояние для управления видимостью PopUser. Изначально PopUser скрыт, поэтому устанавливаем false
   const [isPopUserVisible, setIsPopUserVisible] = useState(false);
 
@@ -54,10 +54,7 @@ export const Header = () => {
                 слою закрывает PopUser */}
                 {/* Останавливаем распространение события клика, чтобы клик по PopUser не закрывал его */}
                 <div onClick={(e) => e.stopPropagation()}>
-                  <PopUser
-                    isVisible={isPopUserVisible}
-                    toggleVisibility={togglePopUserVisibility}
-                  />
+                  <PopUser $isVisible={isPopUserVisible} setIsAuth={setIsAuth} onClose={closePopUser} />
                 </div>
               </PopUserOverlay>
             )}

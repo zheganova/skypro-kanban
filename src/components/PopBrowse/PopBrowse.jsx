@@ -1,16 +1,29 @@
 import { useMemo } from "react";
 import { Calendar } from "../Calendar/Calendar";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { cardList } from "../../data";
 
 export const PopBrowse = () => {
-  const { id } = useParams(); 
+  const { id } = useParams();
+  const navigate = useNavigate();
 
   const task = useMemo(() => {
-    // Важно: useParams() возвращает ID как строку, а в cardList ID - числа.
-    // Поэтому нужно преобразовать id к числу с помощью Number(id) или parseInt(id).
+    // useParams() возвращает ID как строку, а в cardList ID - числа.
+    // Поэтому нужно преобразовать id к числу с помощью Number(id).
+    if (!id) {
+      // Добавляем явную проверку, если id не предоставлен в URL
+      return null; // Возвращаем null, если id отсутствует
+    }
     return cardList.find((card) => card.id === Number(id));
   }, [id]); // Пересчитываем только когда id из URL меняется
+
+  const handleClose = () => {
+    navigate("/");
+  };
+
+  if (!task) {
+    return null;
+  }
 
   return (
     <div className="pop-browse" id="popBrowse">
@@ -98,7 +111,10 @@ export const PopBrowse = () => {
                   <a href="#">Удалить задачу</a>
                 </button>
               </div>
-              <button className="btn-edit__close _btn-bg _hover01">
+              <button
+                onClick={handleClose}
+                className="btn-edit__close _btn-bg _hover01"
+              >
                 <a href="#">Закрыть</a>
               </button>
             </div>

@@ -1,8 +1,7 @@
 import styled from "styled-components";
 
 export const PopExitStyle = styled.div`
-  display: ${({ $isVisible }) =>
-    $isVisible ? "block" : "none"};
+  display: ${({ $isVisible }) => ($isVisible ? "block" : "none")};
   width: 100%;
   height: 100%;
   min-width: 320px;
@@ -52,9 +51,7 @@ export const PopExitTitle = styled.div`
   }
 `;
 
-export const PopExitForm = styled.form`
-  
-`;
+export const PopExitForm = styled.form``;
 
 export const PopExitFormGroup = styled.div`
   width: 100%;
@@ -63,7 +60,7 @@ export const PopExitFormGroup = styled.div`
   justify-content: space-between;
 
   @media only screen and (max-width: 375px) {
-    display: block; 
+    display: block;
   }
 `;
 
@@ -85,16 +82,6 @@ export const PopExitYesButton = styled.button`
   margin-right: 10px;
   cursor: pointer; /* Добавим курсор */
 
-  & a {
-    /* Стили для <a> внутри кнопки */
-    width: 100%;
-    height: 100%;
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
   &:hover {
     background-color: #33399b;
   }
@@ -110,9 +97,9 @@ export const PopExitYesButton = styled.button`
 export const PopExitNoButton = styled.button`
   width: 153px;
   height: 30px;
-  background-color: transparent;
+  background-color: #565eef;
   border-radius: 4px;
-  border: 0.7px solid var(--palette-navy-60, #565eef); 
+  border: 0.7px solid var(--palette-navy-60, #565eef);
   outline: none;
   display: flex;
   align-items: center;
@@ -121,22 +108,12 @@ export const PopExitNoButton = styled.button`
   line-height: 21px;
   font-weight: 500;
   letter-spacing: -0.14px;
-  color: #ffffff; 
+  color: #ffffff;
   cursor: pointer; /* Добавим курсор */
-
-  & a {
-    /* Стили для <a> внутри кнопки */
-    width: 100%;
-    height: 100%;
-    color: #565eef;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
 
   &:hover {
     background-color: #33399b;
-    color: #ffffff; 
+    color: #ffffff;
   }
   &:hover a {
     color: #ffffff;

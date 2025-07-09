@@ -1,4 +1,4 @@
-// import { useNavigate } from "react-router-dom";
+import { PopExit } from "../PopExit/PopExit";
 import { useState } from "react";
 import {
   PopUserContainer,
@@ -6,20 +6,20 @@ import {
   PopUserMail,
   PopUserTheme,
   PopUserButton,
+  PopExitOverlay,
 } from "../PopUser/PopUser.styled";
 
-export const PopUser = ({ $isVisible }) => {
-  // const navigate = useNavigate();
-  // const handleLogout = (e) => {
-  //   e.preventDefault();
-  //   navigate("/exit");
-  // };
-
+export const PopUser = ({ $isVisible, setIsAuth }) => {
   const [isPopExitVisible, setIsPopExitVisible] = useState(false);
 
   // Функция, которая будет переключать видимость PopExit
   const togglePopExitVisibility = () => {
     setIsPopExitVisible(!isPopExitVisible);
+  };
+
+  // Функция для закрытия PopExit
+  const closePopExit = () => {
+    setIsPopExitVisible(false);
   };
 
   return (
@@ -33,6 +33,21 @@ export const PopUser = ({ $isVisible }) => {
       <PopUserButton type="button" onClick={togglePopExitVisibility}>
         Выйти
       </PopUserButton>
+
+      {/* Условный рендеринг PopExit и его обертки */}
+      {isPopExitVisible && ( // Если isPopExitVisible true, то рендерим следующее
+        <PopExitOverlay onClick={closePopExit}>
+          {/* Клик по фоновому слою закрывает PopExit */}
+          {/* Останавливаем распространение события клика, чтобы клик по PopExit не закрывал его */}
+          <div onClick={(e) => e.stopPropagation()}>
+            <PopExit
+              $isVisible={isPopExitVisible}
+              setIsAuth={setIsAuth}
+              onClose={closePopExit}
+            />
+          </div>
+        </PopExitOverlay>
+      )}
     </PopUserContainer>
   );
 };

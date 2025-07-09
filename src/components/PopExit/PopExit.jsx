@@ -10,7 +10,7 @@ import {
   PopExitNoButton,
 } from "../PopExit/PopExit.styled";
 
-export const PopExit = ({ setIsAuth, $isVisible }) => {
+export const PopExit = ({ setIsAuth, $isVisible, onClose }) => {
   const navigate = useNavigate();
 
   // Логика для кнопки "Да, выйти"
@@ -23,7 +23,7 @@ export const PopExit = ({ setIsAuth, $isVisible }) => {
   // Логика для кнопки "Нет, остаться"
   const handleNoExit = (e) => {
     e.preventDefault();
-    navigate("/");
+    onClose();
   };
 
   return (
@@ -40,10 +40,10 @@ export const PopExit = ({ setIsAuth, $isVisible }) => {
                 id="exitYes"
                 onClick={handleYesExit}
               >
-                <a href="modal/signin.html">Да, выйти</a>
+                Да, выйти
               </PopExitYesButton>
               <PopExitNoButton type="button" id="exitNo" onClick={handleNoExit}>
-                <a href="main.html">Нет, остаться</a>
+                Нет, остаться
               </PopExitNoButton>
             </PopExitFormGroup>
           </PopExitForm>

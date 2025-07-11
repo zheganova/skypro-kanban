@@ -1,4 +1,5 @@
 import { PopUser } from "../PopUser/PopUser";
+import { PopNewCard } from "../PopNewCard/PopNewCard";
 import { useState } from "react";
 import {
   HeaderStyle,
@@ -8,6 +9,7 @@ import {
   HeaderBtnMainNew,
   HeaderUser,
   PopUserOverlay,
+  PopNewCardOverlay,
 } from "../Header/Header.styled";
 
 export const Header = ({ setIsAuth }) => {
@@ -22,6 +24,16 @@ export const Header = ({ setIsAuth }) => {
   // Функция для закрытия PopUser
   const closePopUser = () => {
     setIsPopUserVisible(false);
+  };
+
+  const [isPopNewCardVisible, setIsPopNewCardVisible] = useState(false);
+
+  const togglePopNewCardVisibility = () => {
+    setIsPopNewCardVisible(!isPopNewCardVisible);
+  };
+
+  const closePopNewCard = () => {
+    setIsPopNewCardVisible(false);
   };
 
   return (
@@ -39,14 +51,18 @@ export const Header = ({ setIsAuth }) => {
             </a>
           </HeaderLogo>
           <HeaderNav>
-            <HeaderBtnMainNew id="btnMainNew">
-              <a href="#popNewCard">Создать новую задачу</a>
+            <HeaderBtnMainNew
+              id="btnMainNew"
+              onClick={togglePopNewCardVisibility}
+            >
+              Создать новую задачу
             </HeaderBtnMainNew>
             {/* Добавляем обработчик onClick для переключения видимости PopUser */}
             <HeaderUser onClick={togglePopUserVisibility}>
               {" "}
               Ivan Ivanov
             </HeaderUser>
+
             {/* Условный рендеринг PopUser и его обертки */}
             {isPopUserVisible && ( // Если isPopUserVisible true, то рендерим следующее
               <PopUserOverlay onClick={closePopUser}>
@@ -54,9 +70,29 @@ export const Header = ({ setIsAuth }) => {
                 слою закрывает PopUser */}
                 {/* Останавливаем распространение события клика, чтобы клик по PopUser не закрывал его */}
                 <div onClick={(e) => e.stopPropagation()}>
-                  <PopUser $isVisible={isPopUserVisible} setIsAuth={setIsAuth} onClose={closePopUser} />
+                  <PopUser
+                    $isVisible={isPopUserVisible}
+                    setIsAuth={setIsAuth}
+                    onClose={closePopUser}
+                  />
                 </div>
               </PopUserOverlay>
+            )}
+
+            {/* Условный рендеринг PopNewCard и его обертки */}
+            {isPopNewCardVisible && ( // Если isPopNewCardVisible true, то рендерим следующее
+              <PopNewCardOverlay onClick={closePopNewCard}>
+                {/* Добавляем новый класс для фонового слоя // Клик по фоновому
+                слою закрывает PopNewCard */}
+                {/* Останавливаем распространение события клика, чтобы клик по PopNewCard не закрывал его */}
+                <div onClick={(e) => e.stopPropagation()}>
+                  <PopNewCard
+                    $isVisible={isPopNewCardVisible}
+                    setIsAuth={setIsAuth}
+                    onClose={closePopNewCard}
+                  />
+                </div>
+              </PopNewCardOverlay>
             )}
           </HeaderNav>
         </HeaderBlock>

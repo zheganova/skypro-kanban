@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { GlobalStyle } from "../GlobalStyles.js";
 import {
   AuthBg,
   AuthModal,
@@ -27,64 +28,67 @@ export const AuthForm = ({ isSignUp, setIsAuth }) => {
   };
 
   return (
-    <AuthBg>
-      <AuthModal>
-        <AuthWrapper>
-          <AuthTitle>{isSignUp ? "Регистрация" : "Вход"}</AuthTitle>
-          <AuthFormstyle id="form" action="#">
-            <InputWrapper>
-              {isSignUp && (
+    <>
+      <GlobalStyle />
+      <AuthBg>
+        <AuthModal $isSignUp={isSignUp}>
+          <AuthWrapper>
+            <AuthTitle>{isSignUp ? "Регистрация" : "Вход"}</AuthTitle>
+            <AuthFormstyle id="form" action="#">
+              <InputWrapper>
+                {isSignUp && (
+                  <AuthInput
+                    type="text"
+                    name="name"
+                    id="formname"
+                    placeholder="Имя"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required // Добавлено, чтобы поле было обязательным
+                  />
+                )}
+                {/* Два инпута, которые есть на обеих страницах */}
                 <AuthInput
                   type="text"
-                  name="name"
-                  id="formname"
-                  placeholder="Имя"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  required // Добавлено, чтобы поле было обязательным
+                  name="login"
+                  id="formlogin"
+                  placeholder="Эл. почта"
+                  value={login}
+                  onChange={(e) => setLogin(e.target.value)}
+                  required
                 />
+                <AuthInput
+                  type="password"
+                  name="password"
+                  id="formpassword"
+                  placeholder="Пароль"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </InputWrapper>
+
+              <ButtonEnter onClick={handleLogin} type="secondary">
+                {isSignUp ? "Зарегистрироваться" : "Войти"}
+              </ButtonEnter>
+
+              {!isSignUp && (
+                <FormGroup $isSignUp={isSignUp}>
+                  <p>Нужно зарегистрироваться?</p>
+                  <Link to="/sign-up">Регистрируйтесь здесь</Link>
+                </FormGroup>
               )}
-              {/* Два инпута, которые есть на обеих страницах */}
-              <AuthInput
-                type="text"
-                name="login"
-                id="formlogin"
-                placeholder="Эл. почта"
-                value={login}
-                onChange={(e) => setLogin(e.target.value)}
-                required
-              />
-              <AuthInput
-                type="password"
-                name="password"
-                id="formpassword"
-                placeholder="Пароль"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </InputWrapper>
 
-            <ButtonEnter onClick={handleLogin} type="secondary">
-              {isSignUp ? "Зарегистрироваться" : "Войти"}
-            </ButtonEnter>
-
-            {!isSignUp && (
-              <FormGroup>
-                <p>Нужно зарегистрироваться?</p>
-                <Link to="/sign-up">Регистрируйтесь здесь</Link>
-              </FormGroup>
-            )}
-
-            {isSignUp && (
-              <FormGroup>
-                <p>Уже есть аккаунт?</p>
-                <Link to="/sign-in">Войдите здесь</Link>
-              </FormGroup>
-            )}
-          </AuthFormstyle>
-        </AuthWrapper>
-      </AuthModal>
-    </AuthBg>
+              {isSignUp && (
+                <FormGroup $isSignUp={isSignUp}>
+                  <p>Уже есть аккаунт?</p>
+                  <Link to="/sign-in">Войдите здесь</Link>
+                </FormGroup>
+              )}
+            </AuthFormstyle>
+          </AuthWrapper>
+        </AuthModal>
+      </AuthBg>
+    </>
   );
 };

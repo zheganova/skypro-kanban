@@ -13,7 +13,8 @@ export const AuthBg = styled.div`
 
 export const AuthModal = styled.div`
   width: 368px;
-  height: 329px;
+  height: ${({ $isSignUp }) => ($isSignUp ? "345px" : "329px")};
+  padding: 50px 60px 50px 60px;
   background-color: #ffffff;
   border-radius: 10px;
   position: relative;
@@ -58,6 +59,7 @@ export const InputWrapper = styled.div`
   flex-direction: column;
   gap: 7px; /* Отступ между инпутами */
   margin-bottom: 20px; /* Отступ после группы инпутов перед кнопкой */
+  margin-top: 20px;
 `;
 
 export const AuthInput = styled.input`
@@ -99,11 +101,11 @@ export const ButtonEnter = styled.button`
 
 export const FormGroup = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: ${({ $isSignUp }) => ($isSignUp ? "row" : "column")};
   justify-content: center;
   align-items: center;
   margin-top: 20px;
-  gap: 5px;
+  gap: ${({ $isSignUp }) => ($isSignUp ? "5px" : "0px")};
 
   p {
     color: #94a6be66;

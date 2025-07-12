@@ -25,7 +25,10 @@ function AppRoutes() {
     <Routes>
       <Route element={<PrivateRoute isAuth={isAuth} />}>
         {/* Главная страница */}
-        <Route path="/" element={<MainPage loading={loading} setIsAuth={setIsAuth} />}>
+        <Route
+          path="/"
+          element={<MainPage loading={loading} setIsAuth={setIsAuth} />}
+        >
           {/* Добавление задачи */}
           <Route path="/new-card" element={<NewCardPage />} />
           {/* Просмотр и редактирование задачи */}

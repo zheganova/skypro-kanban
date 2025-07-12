@@ -19,11 +19,11 @@ import {
   Subtitle,
 } from "./PopNewCard.styled";
 
-export const PopNewCard = ({ $isVisible, onClose}) => {
+export const PopNewCard = ({ onClose }) => {
   return (
-    <PopNewCardStyled id="popNewCard" $isVisible={$isVisible}>
-      <PopNewCardContainer>
-        <PopNewCardBlock>
+    <PopNewCardStyled id="popNewCard">
+      <PopNewCardContainer onClick={onClose}>
+        <PopNewCardBlock onClick={(e) => e.stopPropagation()}>
           <PopNewCardContent>
             <PopNewCardTitle>Создание задачи</PopNewCardTitle>
             <PopNewCardClose onClick={onClose}>&#10006;</PopNewCardClose>

@@ -1,8 +1,6 @@
 import styled from "styled-components";
 
 export const PopNewCardStyled = styled.div`
-  display: ${({ $isVisible }) =>
-    $isVisible ? "block" : "none"};
   width: 100%;
   min-width: 375px;
   height: 100%;
@@ -14,6 +12,10 @@ export const PopNewCardStyled = styled.div`
 
   @media (max-width: 660px) {
     top: 70px;
+  }
+
+  &.target {
+    display: block;
   }
 `;
 

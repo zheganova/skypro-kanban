@@ -87,6 +87,19 @@ export const GlobalStyle = createGlobalStyle`
     opacity: 1 !important;
   }
 
+  .logo {
+    height: 6em;
+    padding: 1.5em;
+    will-change: filter;
+    transition: filter 300ms;
+  }
+  .logo:hover {
+    filter: drop-shadow(0 0 2em #646cffaa);
+  }
+  .logo.react:hover {
+    filter: drop-shadow(0 0 2em #61dafbaa);
+  }
+
   /* Анимации */
   @keyframes logo-spin {
     from {
@@ -153,6 +166,13 @@ export const GlobalStyle = createGlobalStyle`
   @media (prefers-reduced-motion: no-preference) {
     a:nth-of-type(2) .logo { /* Это очень специфично для logo, возможно, лучше к компоненту Logo */
       animation: logo-spin infinite 20s linear;
+    }
+  }
+
+  @media screen and (max-width: 495px) {
+    .container {
+      width: 100%;
+      padding: 0 16px;
     }
   }
 `;

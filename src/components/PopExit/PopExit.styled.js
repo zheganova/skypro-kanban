@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const PopExitStyle = styled.div`
-  display: ${({ $isVisible }) => ($isVisible ? "block" : "none")};
   width: 100%;
   height: 100%;
   min-width: 320px;
@@ -10,6 +9,10 @@ export const PopExitStyle = styled.div`
   top: 0;
   left: 0;
   z-index: 5;
+
+  &.target {
+    display: block;
+  }
 `;
 
 export const PopExitContainer = styled.div`

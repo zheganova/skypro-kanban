@@ -1,11 +1,31 @@
+import { useNavigate } from "react-router-dom";
 import { useMemo } from "react";
 import { Calendar } from "../Calendar/Calendar";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { cardList } from "../../data";
+import {
+  PopBrowseStyled,
+  PopBrowseContainer,
+  PopBrowseBlock,
+  PopBrowseContent,
+  PopBrowseTopBlock,
+  PopBrowseTitle,
+  PopBrowseWrap,
+  PopBrowseForm,
+  FormBrowseBlock,
+  FormBrowseArea,
+  Status,
+  StatusP,
+  StatusThemes,
+  StatusTheme,
+  PopBrowseButtons,
+  ThemeCategory,
+  CategoryTheme,
+} from "./PopBrowse.styled";
 
 export const PopBrowse = () => {
-  const { id } = useParams();
   const navigate = useNavigate();
+  const { id } = useParams();
 
   const task = useMemo(() => {
     // useParams() возвращает ID как строку, а в cardList ID - числа.
@@ -17,73 +37,66 @@ export const PopBrowse = () => {
     return cardList.find((card) => card.id === Number(id));
   }, [id]); // Пересчитываем только когда id из URL меняется
 
-  const handleClose = () => {
-    navigate("/");
-  };
-
   if (!task) {
     return null;
   }
 
+  const handleClose = () => navigate("/");
+
   return (
-    <div className="pop-browse" id="popBrowse">
-      <div className="pop-browse__container">
-        <div className="pop-browse__block">
-          <div className="pop-browse__content">
-            <div className="pop-browse__top-block">
-              <h3 className="pop-browse__ttl">Название задачи</h3>
-              <div className="categories__theme theme-top _orange _active-category">
+    <PopBrowseStyled onClick={handleClose} id="popBrowse">
+      <PopBrowseContainer>
+        <PopBrowseBlock>
+          <PopBrowseContent>
+            <PopBrowseTopBlock>
+              <PopBrowseTitle>Название задачи</PopBrowseTitle>
+              <CategoryTheme className="_orange _active-category">
                 <p className="_orange">{task.title}</p>
-              </div>
-            </div>
-            <div className="pop-browse__status status">
-              <p className="status__p subttl">Статус</p>
-              <div className="status__themes">
-                <div className="status__theme _hide">
+              </CategoryTheme>
+            </PopBrowseTopBlock>
+            <Status>
+              <StatusP>Статус</StatusP>
+              <StatusThemes>
+                <StatusTheme className="_hide">
                   <p>Без статуса</p>
-                </div>
-                <div className="status__theme _gray">
+                </StatusTheme>
+                <StatusTheme className="_gray">
                   <p className="_gray">Нужно сделать</p>
-                </div>
-                <div className="status__theme _hide">
+                </StatusTheme>
+                <StatusTheme className="_hide">
                   <p>В работе</p>
-                </div>
-                <div className="status__theme _hide">
+                </StatusTheme>
+                <StatusTheme className="_hide">
                   <p>Тестирование</p>
-                </div>
-                <div className="status__theme _hide">
+                </StatusTheme>
+                <StatusTheme className="_hide">
                   <p>Готово</p>
-                </div>
-              </div>
-            </div>
-            <div className="pop-browse__wrap">
-              <form
-                className="pop-browse__form form-browse"
-                id="formBrowseCard"
-                action="#"
-              >
-                <div className="form-browse__block">
+                </StatusTheme>
+              </StatusThemes>
+            </Status>
+            <PopBrowseWrap>
+              <PopBrowseForm id="formBrowseCard" action="#">
+                <FormBrowseBlock>
                   <label htmlFor="textArea01" className="subttl">
                     Описание задачи
                   </label>
-                  <textarea
-                    className="form-browse__area"
+                  <FormBrowseArea
                     name="text"
                     id="textArea01"
                     readOnly
                     placeholder="Введите описание задачи..."
-                  ></textarea>
-                </div>
-              </form>
+                  />
+                </FormBrowseBlock>
+              </PopBrowseForm>
               <Calendar />
-            </div>
-            <div className="theme-down__categories theme-down">
+            </PopBrowseWrap>
+            <ThemeCategory>
               <p className="categories__p subttl">Категория</p>
-              <div className="categories__theme _orange _active-category">
+              <CategoryTheme className="_orange _active-category">
                 <p className="_orange">{task.topic}</p>
-              </div>
-            </div>
-            <div className="pop-browse__btn-browse ">
+              </CategoryTheme>
+            </ThemeCategory>
+            <PopBrowseButtons className="pop-browse__btn-browse">
               <div className="btn-group">
                 <button className="btn-browse__edit _btn-bor _hover03">
                   <a href="#">Редактировать задачу</a>
@@ -92,11 +105,14 @@ export const PopBrowse = () => {
                   <a href="#">Удалить задачу</a>
                 </button>
               </div>
-              <button className="btn-browse__close _btn-bg _hover01">
-                <a href="#">Закрыть</a>
+              <button
+                onClick={handleClose}
+                className="btn-browse__close _btn-bg _hover01"
+              >
+                Закрыть
               </button>
-            </div>
-            <div className="pop-browse__btn-edit _hide">
+            </PopBrowseButtons>
+            <PopBrowseButtons className="pop-browse__btn-edit _hide">
               <div className="btn-group">
                 <button className="btn-edit__edit _btn-bg _hover01">
                   <a href="#">Сохранить</a>
@@ -115,12 +131,12 @@ export const PopBrowse = () => {
                 onClick={handleClose}
                 className="btn-edit__close _btn-bg _hover01"
               >
-                <a href="#">Закрыть</a>
+                Закрыть
               </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+            </PopBrowseButtons>
+          </PopBrowseContent>
+        </PopBrowseBlock>
+      </PopBrowseContainer>
+    </PopBrowseStyled>
   );
 };

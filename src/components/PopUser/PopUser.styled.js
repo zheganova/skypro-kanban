@@ -14,7 +14,11 @@ export const PopUserContainer = styled.div`
   box-shadow: 0px 10px 39px 0px rgba(26, 56, 101, 0.21);
   padding: 34px;
   text-align: center;
-  z-index: 2;
+  z-index: 100;
+
+  &.target {
+    display: block;
+  }
 `;
 
 export const PopUserName = styled.p`
@@ -105,14 +109,4 @@ export const PopUserButton = styled.button`
     /* Стили для <a> внутри кнопки при hover */
     color: #ffffff;
   }
-`;
-
-export const PopExitOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0);
-  z-index: 99;
 `;

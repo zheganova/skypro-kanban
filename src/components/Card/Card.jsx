@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import {
   CardsItem,
   CardsCard,
@@ -25,9 +26,15 @@ export const Card = ({ id, topic, title, date }) => {
       break;
   }
 
+  const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    navigate(`/card/${id}`);
+  };
+
   return (
     <CardsItem>
-      <CardsCard id={`card-${id}`}>
+      <CardsCard id={`card-${id}`} onClick={handleCardClick}>
         <CardGroup>
           <CardTheme className={`_${themeClass}`}>
             <p className={`_${themeClass}`}>{topic}</p>

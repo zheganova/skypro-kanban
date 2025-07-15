@@ -5,18 +5,42 @@ import "../App.css";
 import { GlobalStyle } from "../components/GlobalStyles";
 import { Outlet } from "react-router-dom";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
+import { fetchTasks } from "../services/api";
 
-export const MainPage = ({ loading, setIsAuth }) => {
+export const MainPage = ({ setIsAuth }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const isNewCardOpen = location.pathname === "/new-card";
   const closeNewCard = () => navigate(-1);
 
+  const [loading, setLoading] = useState(false);
+  const [tasks, setTasks] = useState([]);
+  const [error, setError] = useState("");
+
+  const getTasks = useCallback(async () => {
+    try {
+      setLoading(true);
+      const data = await fetchTasks({
+        // пока у нас не реализована авторизация, передаём токен вручную
+        token: "ksdfsksdfjfsdjk",
+      });
+      if (data) setTasks(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+  useEffect(() => {
+    getTasks();
+  }, [getTasks]);
+
   return (
     <div className="wrapper">
       <GlobalStyle />
       <Header setIsAuth={setIsAuth} />
-      <Main loading={loading} />
+      <Main error={error} tasks={tasks} loading={loading} />
       <Outlet />
       {isNewCardOpen && <PopNewCard onClose={closeNewCard} />}
     </div>

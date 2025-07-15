@@ -1,8 +1,8 @@
 import { Column } from "../Column/Column";
-import { cardList } from "../../data";
+// import { cardList } from "../../data";
 import { MainStyle, MainBlock, MainContent } from "../Main/Main.styled";
 
-export const Main = ({ loading }) => {
+export const Main = ({ loading, tasks, error }) => {
   const columnTitles = [
     "БЕЗ СТАТУСА",
     "НУЖНО СДЕЛАТЬ",
@@ -26,14 +26,17 @@ export const Main = ({ loading }) => {
                 <Column
                   key={title}
                   title={title}
+                  tasks={tasks}
+                  loading={loading}
                   // Фильтруем `cardList` по статусу и передаем отфильтрованный список карточек в Column
-                  cardList={cardList.filter((card) => card.status === title)}
+                  cardList={tasks.filter((task) => task.status === title)}
                 />
               ))}
             </MainContent>
           )}
         </MainBlock>
       </div>
+      <p>{error}</p>
     </MainStyle>
   );
 };

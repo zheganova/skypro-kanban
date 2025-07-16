@@ -18,12 +18,28 @@ export const MainPage = ({ setIsAuth }) => {
   const [tasks, setTasks] = useState([]);
   const [error, setError] = useState("");
 
+  const [token, setToken] = useState("");
+
+  useEffect(() => {
+    const storedUserInfo = localStorage.getItem("userInfo");
+    if (storedUserInfo) {
+      try {
+        const parsedUserInfo = JSON.parse(storedUserInfo);
+        if (parsedUserInfo.token) {
+          setToken(parsedUserInfo.token);
+        }
+      } catch (e) {
+        console.error("Ошибка парсинга userInfo:", e);
+      }
+    }
+  }, []);
+
   const getTasks = useCallback(async () => {
     try {
       setLoading(true);
       const data = await fetchTasks({
         // пока у нас не реализована авторизация, передаём токен вручную
-        token: "ksdfsksdfjfsdjk",
+        token,
       });
       if (data) setTasks(data);
     } catch (err) {
@@ -31,10 +47,14 @@ export const MainPage = ({ setIsAuth }) => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [token]);
+
   useEffect(() => {
-    getTasks();
-  }, [getTasks]);
+    if (token) {
+      // Загружаем задачи только если есть токен
+      getTasks();
+    }
+  }, [getTasks, token]);
 
   return (
     <div className="wrapper">

@@ -101,7 +101,9 @@ export const AuthForm = ({ isSignUp, setIsAuth }) => {
 
       if (data) {
         setIsAuth(true);
-        localStorage.setItem("userInfo", JSON.stringify(data));
+        const { user, token } = data;
+        localStorage.setItem("userInfo", JSON.stringify(user));
+        localStorage.setItem("token", token);
         navigate("/");
       }
     } catch (err) {

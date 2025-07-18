@@ -11,6 +11,7 @@ import {
   AuthInput,
   ButtonEnter,
   FormGroup,
+  ErrorText,
 } from "./AuthForm.styled.js";
 import { signIn } from "../../services/auth.js";
 import { signUp } from "../../services/auth.js";
@@ -38,9 +39,9 @@ export const AuthForm = ({ isSignUp, setIsAuth }) => {
 
   // состояние ошибок
   const [errors, setErrors] = useState({
-    name: "",
-    login: "",
-    password: "",
+    name: false,
+    login: false,
+    password: false,
   });
 
   // состояние текста ошибки, чтобы показать её пользователю
@@ -48,28 +49,26 @@ export const AuthForm = ({ isSignUp, setIsAuth }) => {
 
   // функция валидации
   const validateForm = () => {
-    const newErrors = { name: "", login: "", password: "" };
+    const newErrors = { name: false, login: false, password: false };
     let isValid = true;
 
     if (isSignUp && !formData.name.trim()) {
       newErrors.name = true;
-      setError("Заполните все поля");
       isValid = false;
     }
 
     if (!formData.login.trim()) {
       newErrors.login = true;
-      setError("Заполните все поля");
       isValid = false;
     }
 
     if (!formData.password.trim()) {
       newErrors.password = true;
-      setError("Заполните все поля");
       isValid = false;
     }
 
     setErrors(newErrors);
+    console.log("Ошибки:", newErrors);
     return isValid;
   };
 
@@ -92,9 +91,10 @@ export const AuthForm = ({ isSignUp, setIsAuth }) => {
       // если у нас форма не прошла валидацию, то дальше не продолжаем
       return;
     }
+
+    setIsSubmitting(true); // Включаем кнопку загрузки перед запросом
+
     try {
-      // чтобы не писать две разных функции, выберем нужный запрос через
-      // тернарный оператор
       const data = !isSignUp
         ? await signIn({ login: formData.login, password: formData.password })
         : await signUp(formData);
@@ -106,10 +106,19 @@ export const AuthForm = ({ isSignUp, setIsAuth }) => {
         localStorage.setItem("token", token);
         navigate("/");
       }
-    } catch (err) {
-      setError(err.message);
+    } catch {
+      // Обработка ошибок от сервера
+      const serverError = isSignUp
+        ? "Введенные вами данные не корректны. Чтобы завершить регистрацию, введите данные корректно и повторите попытку."
+        : "Введенные вами данные не распознаны. Проверьте свой логин и пароль и повторите попытку входа.";
+
+      setError(serverError);
+    } finally {
+      setIsSubmitting(false); // Выключаем кнопку после завершения запроса (успех или ошибка)
     }
   };
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   return (
     <>
@@ -129,35 +138,57 @@ export const AuthForm = ({ isSignUp, setIsAuth }) => {
                     placeholder="Имя"
                     value={formData.name}
                     onChange={handleChange}
-                    required // Добавлено, чтобы поле было обязательным
                   />
                 )}
                 {/* Два инпута, которые есть на обеих страницах */}
                 <AuthInput
-                  $error={errors.name}
+                  $error={errors.login}
                   type="text"
                   name="login"
                   id="formlogin"
                   placeholder="Эл. почта"
                   value={formData.login}
                   onChange={handleChange}
-                  required
                 />
                 <AuthInput
-                  $error={errors.name}
+                  $error={errors.password}
                   type="password"
                   name="password"
                   id="formpassword"
                   placeholder="Пароль"
                   value={formData.password}
                   onChange={handleChange}
-                  required
                 />
               </InputWrapper>
 
-              {error && <p style={{ color: "red" }}>{error}</p>}
+              {error && <ErrorText>{error}</ErrorText>}
 
-              <ButtonEnter type="secondary">
+              <ButtonEnter
+                type="secondary"
+                disabled={
+                  isSubmitting ||
+                  !formData.login.trim() ||
+                  !formData.password.trim() ||
+                  (isSignUp && !formData.name.trim())
+                }
+                style={{
+                  backgroundColor:
+                    isSubmitting ||
+                    !formData.login.trim() ||
+                    !formData.password.trim() ||
+                    (isSignUp && !formData.name.trim())
+                      ? "#94A6BE"
+                      : "#565EEF",
+                  color: "#ffffff",
+                  cursor:
+                    isSubmitting ||
+                    !formData.login.trim() ||
+                    !formData.password.trim() ||
+                    (isSignUp && !formData.name.trim())
+                      ? "not-allowed"
+                      : "pointer",
+                }}
+              >
                 {isSignUp ? "Зарегистрироваться" : "Войти"}
               </ButtonEnter>
 

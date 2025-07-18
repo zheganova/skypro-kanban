@@ -29,7 +29,9 @@ export const Main = ({ loading, tasks, error }) => {
                   tasks={tasks}
                   loading={loading}
                   // Фильтруем `cardList` по статусу и передаем отфильтрованный список карточек в Column
-                  cardList={tasks.filter((task) => task.status === title)}
+                  cardList={tasks.filter(
+                    (task) => task.status.toLowerCase() === title.toLowerCase()
+                  )}
                 />
               ))}
             </MainContent>

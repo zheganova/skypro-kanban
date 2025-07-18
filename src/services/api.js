@@ -20,22 +20,23 @@ export async function postTask({ token, task }) {
     const data = await axios.post(API_URL, task, {
       headers: {
         Authorization: "Bearer " + token,
-        "Content-Type": "application/json",
+        "Content-Type": "",
       },
     });
     return data.data.tasks;
     // когда работаем с axios, не забываем, что результат лежит в ключе datа
   } catch (error) {
+    console.error("Ошибка сервера:", error.response?.data || error.message);
     throw new Error(error.message);
   }
 }
 
 export async function editTask({ token, id, task }) {
   try {
-    const data = await axios.patch(API_URL + id, task, {
+    const data = await axios.put(`${API_URL}/${id}`, task, {
       headers: {
         Authorization: "Bearer " + token,
-        "Content-Type": "application/json",
+        "Content-Type": "",
       },
     });
     return data.data.tasks;
@@ -46,7 +47,7 @@ export async function editTask({ token, id, task }) {
 
 export async function deleteTask({ token, id }) {
   try {
-    const data = await axios.delete(API_URL + id, {
+    const data = await axios.delete(`${API_URL}/${id}`, {
       headers: {
         Authorization: "Bearer " + token,
         "Content-Type": "text",

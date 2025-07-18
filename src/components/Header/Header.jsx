@@ -31,6 +31,9 @@ export const Header = ({ setIsAuth }) => {
     navigate("/new-card");
   };
 
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  const userName = userInfo?.name || "Пользователь";
+
   return (
     <HeaderStyle>
       <div className="container">
@@ -51,8 +54,7 @@ export const Header = ({ setIsAuth }) => {
             </HeaderBtnMainNew>
             {/* Добавляем обработчик onClick для переключения видимости PopUser */}
             <HeaderUser onClick={togglePopUserVisibility}>
-              {" "}
-              Ivan Ivanov
+              {userName}
             </HeaderUser>
 
             {/* Условный рендеринг PopUser и его обертки */}

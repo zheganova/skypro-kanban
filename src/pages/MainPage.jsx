@@ -61,8 +61,14 @@ export const MainPage = ({ setIsAuth }) => {
       <GlobalStyle />
       <Header setIsAuth={setIsAuth} />
       <Main error={error} tasks={tasks} loading={loading} />
-      <Outlet />
-      {isNewCardOpen && <PopNewCard onClose={closeNewCard} />}
+      <Outlet context={{ tasks, fetchTasks: getTasks }} />
+      {isNewCardOpen && (
+        <PopNewCard
+          onClose={closeNewCard}
+          token={token}
+          onTaskCreated={getTasks}
+        />
+      )}
     </div>
   );
 };

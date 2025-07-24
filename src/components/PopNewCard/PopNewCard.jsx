@@ -18,8 +18,40 @@ import {
   CategoriesTheme,
   Subtitle,
 } from "./PopNewCard.styled";
+import { useState } from "react";
+import { postTask } from "../../services/api";
 
-export const PopNewCard = ({ onClose }) => {
+export const PopNewCard = ({ onClose, token, onTaskCreated }) => {
+  const [title, setTitle] = useState("");
+  const [text, setText] = useState("");
+  const [category, setCategory] = useState("Web Design"); // по умолчанию
+
+  const handleCreate = async () => {
+    if (!title.trim()) {
+      alert("Введите название задачи");
+      return;
+    }
+    const newTask = {
+      title,
+      description: text,
+      topic: category,
+    };
+
+    console.log("Создаётся задача:", newTask);
+    console.log("Токен:", token);
+
+    try {
+      await postTask({ token, task: newTask });
+      onTaskCreated(); // обновить задачи
+      onClose(); // закрыть модалку
+      setTitle("");
+      setText("");
+      setCategory("Web Design");
+    } catch (err) {
+      console.error("Ошибка при создании задачи:", err);
+    }
+  };
+
   return (
     <PopNewCardStyled id="popNewCard">
       <PopNewCardContainer onClick={onClose}>
@@ -37,6 +69,7 @@ export const PopNewCard = ({ onClose }) => {
                     id="formTitle"
                     placeholder="Введите название задачи..."
                     autoFocus
+                    onChange={(e) => setTitle(e.target.value)}
                   />
                 </FormNewBlock>
                 <FormNewBlock>
@@ -45,6 +78,7 @@ export const PopNewCard = ({ onClose }) => {
                     name="text"
                     id="textArea"
                     placeholder="Введите описание задачи..."
+                    onChange={(e) => setText(e.target.value)}
                   />
                 </FormNewBlock>
               </PopNewCardForm>
@@ -53,18 +87,37 @@ export const PopNewCard = ({ onClose }) => {
             <Categories>
               <CategoriesP>Категория</CategoriesP>
               <CategoriesThemes>
-                <CategoriesTheme className="_orange _active-category">
+                <CategoriesTheme
+                  className={`_orange ${
+                    category === "Web Design" ? "_active-category" : ""
+                  }`}
+                  onClick={() => setCategory("Web Design")}
+                >
                   <p className="_orange">Web Design</p>
                 </CategoriesTheme>
-                <CategoriesTheme className="_green">
+                <CategoriesTheme
+                  className={`_green ${
+                    category === "Research" ? "_active-category" : ""
+                  }`}
+                  onClick={() => setCategory("Research")}
+                >
                   <p className="_green">Research</p>
                 </CategoriesTheme>
-                <CategoriesTheme className="_purple">
+                <CategoriesTheme
+                  className={`_purple ${
+                    category === "Copywriting" ? "_active-category" : ""
+                  }`}
+                  onClick={() => setCategory("Copywriting")}
+                >
                   <p className="_purple">Copywriting</p>
                 </CategoriesTheme>
               </CategoriesThemes>
             </Categories>
-            <FormNewCreate className="_hover01" id="btnCreate">
+            <FormNewCreate
+              className="_hover01"
+              id="btnCreate"
+              onClick={handleCreate}
+            >
               Создать задачу
             </FormNewCreate>
           </PopNewCardContent>

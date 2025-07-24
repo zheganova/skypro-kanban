@@ -14,10 +14,14 @@ export const PopUser = ({ $isVisible }) => {
     navigate("/exit");
   };
 
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  const userName = userInfo?.name || "Пользователь";
+  const userLogin = userInfo?.login || "Эл. почта";
+
   return (
     <PopUserContainer $isVisible={$isVisible} id="user-set-target">
-      <PopUserName>Ivan Ivanov</PopUserName>
-      <PopUserMail>ivan.ivanov@gmail.com</PopUserMail>
+      <PopUserName>{userName}</PopUserName>
+      <PopUserMail>{userLogin}</PopUserMail>
       <PopUserTheme>
         <p>Темная тема</p>
         <input type="checkbox" className="checkbox" name="checkbox" />

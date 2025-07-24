@@ -10,7 +10,7 @@ import {
   CardDate,
 } from "../Card/Card.styled";
 
-export const Card = ({ id, topic, title, date }) => {
+export const Card = ({ _id, topic, title, date }) => {
   let themeClass = "";
   switch (
     topic // Используем topic для определения цвета
@@ -29,28 +29,39 @@ export const Card = ({ id, topic, title, date }) => {
   const navigate = useNavigate();
 
   const handleCardClick = () => {
-    navigate(`/card/${id}`);
+    navigate(`/card/${_id}`);
+  };
+
+  const formatDate = (dateString) => {
+    if (!dateString) return "";
+
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = String(date.getFullYear()).slice(-2);
+
+    return `${day}.${month}.${year}`;
   };
 
   return (
     <CardsItem>
-      <CardsCard id={`card-${id}`} onClick={handleCardClick}>
+      <CardsCard id={`card-${_id}`}>
         <CardGroup>
           <CardTheme className={`_${themeClass}`}>
             <p className={`_${themeClass}`}>{topic}</p>
           </CardTheme>
-          <a href="#popBrowse" target="_self">
-            <CardBtn>
+          <>
+            <CardBtn onClick={handleCardClick}>
               <div></div>
               <div></div>
               <div></div>
             </CardBtn>
-          </a>
+          </>
         </CardGroup>
         <CardContent>
-          <a href="" target="_blank">
+          <div>
             <CardTitle>{title}</CardTitle>
-          </a>
+          </div>
           <CardDate>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -80,7 +91,7 @@ export const Card = ({ id, topic, title, date }) => {
                 </clipPath>
               </defs>
             </svg>
-            <p>{date}</p>
+            <p>{formatDate(date)}</p>
           </CardDate>
         </CardContent>
       </CardsCard>

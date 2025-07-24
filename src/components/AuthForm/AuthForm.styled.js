@@ -13,7 +13,8 @@ export const AuthBg = styled.div`
 
 export const AuthModal = styled.div`
   width: 368px;
-  height: ${({ $isSignUp }) => ($isSignUp ? "345px" : "329px")};
+  min-height: ${({ $isSignUp }) => ($isSignUp ? "345px" : "329px")};
+  height: auto;
   padding: 50px 60px 50px 60px;
   background-color: #ffffff;
   border-radius: 10px;
@@ -66,7 +67,8 @@ export const AuthInput = styled.input`
   width: 100%;
   height: 30px;
   border-radius: 8px;
-  border: 0.7px solid rgba(148, 166, 190, 0.4);
+  border: 0.7px solid
+    ${({ $error }) => ($error ? "red" : "rgba(148, 166, 190, 0.4)")};
   outline: none;
   padding: 4.5px 10px;
   font-family: Roboto;
@@ -130,4 +132,11 @@ export const FormGroup = styled.div`
       color: #565eef;
     }
   }
+`;
+
+export const ErrorText = styled.p`
+  color: #f84d4d;
+  font-size: 12px;
+  margin: 7px 0 20px 0;
+  font-family: Arial;
 `;

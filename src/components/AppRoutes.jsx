@@ -19,7 +19,7 @@ function AppRoutes() {
   }, []);
 
   // Добавляем состояние авторизации
-  const [isAuth, setIsAuth] = useState(false);
+  const [isAuth, setIsAuth] = useState(() => !!localStorage.getItem("token"));
 
   return (
     <Routes>
@@ -40,7 +40,7 @@ function AppRoutes() {
       {/* Страница входа */}
       <Route path="/sign-in" element={<SignInPage setIsAuth={setIsAuth} />} />
       {/* Страница регистрации */}
-      <Route path="/sign-up" element={<SignUpPage />} />
+      <Route path="/sign-up" element={<SignUpPage setIsAuth={setIsAuth} />} />
       {/* Страница 404 (любой несуществующий маршрут) */}
       <Route path="*" element={<NotFoundPage />} />
     </Routes>

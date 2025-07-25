@@ -1,6 +1,6 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { PopUser } from "../PopUser/PopUser";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import {
   HeaderStyle,
   HeaderBlock,
@@ -10,10 +10,16 @@ import {
   HeaderUser,
   PopUserOverlay,
 } from "../Header/Header.styled";
+import { AuthContext } from "../../context/AuthContext";
 
-export const Header = ({ setIsAuth }) => {
+export const Header = () => {
+  const location = useLocation(); // Добавляем useLocation для проверки пути
+
   // Создаем состояние для управления видимостью PopUser. Изначально PopUser скрыт, поэтому устанавливаем false
   const [isPopUserVisible, setIsPopUserVisible] = useState(false);
+
+  // Получаем user и logout из AuthContext
+  const { user, logout } = useContext(AuthContext);
 
   // Функция, которая будет переключать видимость PopUser
   const togglePopUserVisibility = () => {
@@ -31,8 +37,7 @@ export const Header = ({ setIsAuth }) => {
     navigate("/new-card");
   };
 
-  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-  const userName = userInfo?.name || "Пользователь";
+  const userName = user?.name || "Пользователь";
 
   return (
     <HeaderStyle>
@@ -67,7 +72,8 @@ export const Header = ({ setIsAuth }) => {
                   <div onClick={(e) => e.stopPropagation()}>
                     <PopUser
                       $isVisible={isPopUserVisible}
-                      setIsAuth={setIsAuth}
+                      // Передаем logout из контекста
+                      onLogout={logout}
                       onClose={closePopUser}
                     />
                   </div>

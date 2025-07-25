@@ -1,8 +1,10 @@
 import { PopBrowse } from "../components/PopBrowse/PopBrowse";
-import { useParams, useOutletContext } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useContext } from "react"; // Добавляем useContext
+import { TaskContext } from "../context/TaskContext";
 
 export const CardPage = () => {
-  const { tasks, fetchTasks } = useOutletContext(); // получаем tasks из MainPage
+  const { tasks, fetchTasks } = useContext(TaskContext);
   const { id } = useParams(); // получаем id из URL
 
   const task = tasks.find((t) => t._id === id); // ищем задачу по id

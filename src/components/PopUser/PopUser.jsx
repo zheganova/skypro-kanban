@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react"; // Добавляем useContext
 import {
   PopUserContainer,
   PopUserName,
@@ -6,18 +7,22 @@ import {
   PopUserTheme,
   PopUserButton,
 } from "../PopUser/PopUser.styled";
+import { AuthContext } from "../../context/AuthContext";
 
-export const PopUser = ({ $isVisible }) => {
+export const PopUser = ({ $isVisible, onClose }) => {
   const navigate = useNavigate();
+
+  // Получаем user из AuthContext
+  const { user } = useContext(AuthContext);
 
   const openExitModal = () => {
     navigate("/exit");
+    onClose(); // Закрываем PopUser после перехода
   };
 
-  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-  const userName = userInfo?.name || "Пользователь";
-  const userLogin = userInfo?.login || "Эл. почта";
-
+  // Получаем имя и логин пользователя из контекста
+  const userName = user?.name || "Пользователь";
+  const userLogin = user?.login || "Эл. почта";
   return (
     <PopUserContainer $isVisible={$isVisible} id="user-set-target">
       <PopUserName>{userName}</PopUserName>

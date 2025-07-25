@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { GlobalStyle } from "../GlobalStyles.js";
 import {
   AuthBg,
@@ -13,22 +13,14 @@ import {
   FormGroup,
   ErrorText,
 } from "./AuthForm.styled.js";
-import { signIn } from "../../services/auth.js";
-import { signUp } from "../../services/auth.js";
+// import { signIn } from "../../services/auth.js";
+// import { signUp } from "../../services/auth.js";
+import { AuthContext } from "../../context/AuthContext.js";
 
-export const AuthForm = ({ isSignUp, setIsAuth }) => {
+export const AuthForm = ({ isSignUp }) => {
   const navigate = useNavigate();
 
-  // // Состояния для хранения значений полей ввода
-  // const [username, setUsername] = useState("");
-  // const [login, setLogin] = useState("");
-  // const [password, setPassword] = useState("");
-
-  // const handleLogin = (e) => {
-  //   e.preventDefault();
-  //   setIsAuth(true);
-  //   navigate("/");
-  // };
+  const { login, register } = useContext(AuthContext);
 
   // состояние полей
   const [formData, setFormData] = useState({
@@ -95,17 +87,14 @@ export const AuthForm = ({ isSignUp, setIsAuth }) => {
     setIsSubmitting(true); // Включаем кнопку загрузки перед запросом
 
     try {
-      const data = !isSignUp
-        ? await signIn({ login: formData.login, password: formData.password })
-        : await signUp(formData);
-
-      if (data) {
-        setIsAuth(true);
-        const { user, token } = data;
-        localStorage.setItem("userInfo", JSON.stringify(user));
-        localStorage.setItem("token", token);
-        navigate("/");
+      if (!isSignUp) {
+        await login({ login: formData.login, password: formData.password });
+      } else {
+        await register(formData);
       }
+
+      // Если вход/регистрация успешны, navigate на главную страницу
+      navigate("/");
     } catch {
       // Обработка ошибок от сервера
       const serverError = isSignUp

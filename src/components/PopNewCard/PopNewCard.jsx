@@ -18,13 +18,19 @@ import {
   CategoriesTheme,
   Subtitle,
 } from "./PopNewCard.styled";
-import { useState } from "react";
-import { postTask } from "../../services/api";
+import { useState, useContext } from "react";
+import { TaskContext } from "../../context/TaskContext";
+import { AuthContext } from "../../context/AuthContext";
 
-export const PopNewCard = ({ onClose, token, onTaskCreated }) => {
+export const PopNewCard = ({ onClose }) => {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const [category, setCategory] = useState("Web Design"); // по умолчанию
+
+  // Получаем createTask и fetchTasks из TaskContext
+  const { createTask, fetchTasks } = useContext(TaskContext);
+  const { user } = useContext(AuthContext);
+  const token = user?.token; // Извлекаем токен
 
   const handleCreate = async () => {
     if (!title.trim()) {
@@ -41,8 +47,9 @@ export const PopNewCard = ({ onClose, token, onTaskCreated }) => {
     console.log("Токен:", token);
 
     try {
-      await postTask({ token, task: newTask });
-      onTaskCreated(); // обновить задачи
+      // Вызываем createTask из контекста
+      await createTask(newTask);
+      fetchTasks(); // Обновить задачи после создания
       onClose(); // закрыть модалку
       setTitle("");
       setText("");

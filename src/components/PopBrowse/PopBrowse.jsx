@@ -1,8 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Calendar } from "../Calendar/Calendar";
-// import { useParams } from "react-router-dom";
-// import { cardList } from "../../data";
 import {
   PopBrowseStyled,
   PopBrowseContainer,
@@ -22,17 +20,24 @@ import {
   ThemeCategory,
   CategoryTheme,
 } from "./PopBrowse.styled";
-import { editTask, deleteTask } from "../../services/api";
+import { TaskContext } from "../../context/TaskContext";
+import { AuthContext } from "../../context/AuthContext";
 
-export const PopBrowse = ({ task, onUpdate }) => {
+export const PopBrowse = ({ task }) => {
   const navigate = useNavigate();
   const [isEditMode, setIsEditMode] = useState(false); // состояние: редактируем или нет
   const [editedStatus, setEditedStatus] = useState(task.status); // текущий редактируемый статус
   const [editedText, setEditedText] = useState(task.text); // Для редактируемого описания
   const [editDate, setEditDate] = useState(task.date || "");
 
-  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-  const token = userInfo?.token;
+  // Получаем функции для работы с задачами из TaskContext
+  const {
+    updateTask,
+    deleteTask: removeTask,
+    fetchTasks,
+  } = useContext(TaskContext);
+  const { user } = useContext(AuthContext);
+  const token = user?.token; // Извлекаем токен
 
   if (!task) {
     return null;
@@ -66,6 +71,12 @@ export const PopBrowse = ({ task, onUpdate }) => {
 
   // Сохранение задачи
   const handleSave = async () => {
+    if (!token) {
+      console.error(
+        "Токен пользователя отсутствует. Невозможно сохранить задачу."
+      );
+      return;
+    }
     try {
       const updatedTask = {
         title: task.title,
@@ -74,16 +85,10 @@ export const PopBrowse = ({ task, onUpdate }) => {
         status: editedStatus,
       };
       console.log("Отправляем задачу на сервер:", updatedTask);
-      await editTask({
-        token,
-        id: task._id,
-        task: updatedTask,
-      });
+      await updateTask(task._id, updatedTask);
       setIsEditMode(false);
-      if (typeof onUpdate === "function") {
-        onUpdate(); // Обновить список задач
-      }
-      handleClose(); 
+      fetchTasks(); // Обновить список задач через контекст
+      handleClose();
     } catch (err) {
       console.error("Ошибка при сохранении:", err);
     }
@@ -91,11 +96,15 @@ export const PopBrowse = ({ task, onUpdate }) => {
 
   // Удаление задачи
   const handleDelete = async () => {
+    if (!token) {
+      console.error(
+        "Токен пользователя отсутствует. Невозможно удалить задачу."
+      );
+      return;
+    }
     try {
-      await deleteTask({ token, id: task._id });
-      if (typeof onUpdate === "function") {
-        onUpdate(); // обновить список задач 
-      }
+      await removeTask(task._id);
+      fetchTasks(); // Обновить список задач через контекст
       handleClose();
     } catch (err) {
       console.error("Ошибка при удалении:", err);

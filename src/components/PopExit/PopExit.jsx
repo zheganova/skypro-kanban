@@ -10,13 +10,13 @@ import {
   PopExitNoButton,
 } from "../PopExit/PopExit.styled";
 
-export const PopExit = ({ setIsAuth, $isVisible }) => {
+export const PopExit = ({ $isVisible, onLogout }) => {
   const navigate = useNavigate();
 
   // Логика для кнопки "Да, выйти"
   const handleYesExit = (e) => {
     e.preventDefault();
-    setIsAuth(false);
+    onLogout(); // Вызываем функцию onLogout, переданную из ExitPage (она из AuthContext)
     navigate("/sign-in");
   };
 
